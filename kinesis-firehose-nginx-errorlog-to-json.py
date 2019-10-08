@@ -24,10 +24,7 @@ def lambda_handler(event, context):
         print(record['recordId'])
         payload = base64.b64decode(record['data']).decode('utf-8')
         data = re.search(lineformat, payload)
-        
-        print(payload)
-        print(data)
-        
+                
         if data:
             succeeded_record_cnt += 1
             datadict = data.groupdict()
