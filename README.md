@@ -8,14 +8,16 @@ language: Python
 authorLink: 'https://github.com/kihoair'
 authorName: 'Kota Kaihori'
 -->
-# kinesis-firehose-nginx-accesslog-to-json
+# kinesis-firehose-nginx-log-to-json
 
-This function converts the access log from Nginx to JSON so that Elasticsearch can use the log sent by Kinesis Firehose.
+These functions convert the access log and error log from Nginx to JSON so that Elasticsearch can use the log sent by Kinesis Firehose.
 
 ## Runtime
 Python 3.7
 
 ## Usage
+
+### access log
 
 sample nginx access log: 
 
@@ -44,6 +46,7 @@ test event:
   ]
 }
 ```
+
 The expected result should be similar to:
 
 ```bash
@@ -53,4 +56,38 @@ START RequestId: c325ceef-36d9-46ad-a15b-e508e1333719 Version: $LATEST
 Processing completed.  Successful records 2, Failed records 0.
 END RequestId: c325ceef-36d9-46ad-a15b-e508e1333719
 REPORT RequestId: c325ceef-36d9-46ad-a15b-e508e1333719	Duration: 99.47 ms	Billed Duration: 100 ms	Memory Size: 128 MB	Max Memory Used: 56 MB	Init Duration: 114.61 ms	
+```
+
+### error log
+
+sample nginx error log:
+
+```log
+2019/10/03 16:40:39 [error] 8724#8724: *3745908 access forbidden by rule
+```
+
+test event:
+
+```
+{
+  "invocationId": "fir",
+  "region": "ap-northeast-1",
+  "records": [
+    {
+      "recordId": "49546986683135544286507457936321625675700192471156785154",
+      "approximateArrivalTimestamp": 1495072949453,
+      "data": "MjAxOS8xMC8wMyAxNjo0MDozOSBbZXJyb3JdIDg3MjQjODcyNDogKjM3NDU5MDggYWNjZXNzIGZvcmJpZGRlbiBieSBydWxlCg=="
+    }
+  ]
+}
+```
+
+The expected result should be similar to:
+
+```bash
+START RequestId: 4fb63188-a52b-41e1-b201-04727668f8e8 Version: $LATEST
+49546986683135544286507457936321625675700192471156785154
+Processing completed.  Successful records 1, Failed records 0.
+END RequestId: 4fb63188-a52b-41e1-b201-04727668f8e8
+REPORT RequestId: 4fb63188-a52b-41e1-b201-04727668f8e8	Duration: 71.88 ms	Billed Duration: 100 ms	Memory Size: 128 MB	Max Memory Used: 55 MB	Init Duration: 112.60 ms	
 ```
