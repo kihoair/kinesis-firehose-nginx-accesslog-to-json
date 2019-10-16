@@ -13,7 +13,7 @@ def lambda_handler(event, context):
     succeeded_record_cnt = 0
     failed_record_cnt = 0
 
-    regex_pattern =  (r'(?P<ipaddress>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) - - '
+    regex_pattern =  (r'(?P<ipaddress>([^\s]+)) - - '
                   r'\[(?P<timestamp>\d{2}\/[a-z]{3}\/\d{4}:\d{2}:\d{2}:\d{2} (\+|\-)\d{4})\] '
                   r'((\"(GET|POST) )(?P<uri>.+)(http\/1\.1")) (?P<statuscode>\d{3}) (?P<bytessent>\d+) '
                   r'(["](?P<refferer>(\-)|(.+))["]) (["](?P<useragent>.+)["])'
