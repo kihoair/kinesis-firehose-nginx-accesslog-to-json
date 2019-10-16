@@ -60,6 +60,6 @@ def lambda_handler(event, context):
     return {'records': output}
 
 def format_timestamp_str(timestamp):
-    tmp_tstamp = datetime.datetime.strptime(timestamp, '%Y/%d/%m %H:%M:%S')
+    tmp_tstamp = datetime.datetime.strptime(timestamp, '%Y/%m/%d %H:%M:%S')
     formatted_timestamp = tmp_tstamp.strftime('%Y-%m-%dT%H:%M:%S')
     return formatted_timestamp
